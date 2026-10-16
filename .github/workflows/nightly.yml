@@ -257,7 +257,7 @@ jobs:
       # upload release to GH
       # --------------------------------------------------
       - name: Upload Release
-        if: steps.build_gate.outputs.should_skip != 'true'
+        if: steps.build_gate.outputs.should_skip != 'true' && github.repository == 'SideStore/SideStore'
         run: |
           python3 scripts/ci/workflow.py upload-release \
             "$RELEASE_NAME" \

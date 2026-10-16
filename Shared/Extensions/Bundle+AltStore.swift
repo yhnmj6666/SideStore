@@ -98,8 +98,20 @@ public extension Bundle
     
     // @livecontainer
     @objc dynamic var altstoreAppGroup: String? {
-        let appGroup = self.appGroups.first { $0.contains(Bundle.baseAltStoreAppGroupID) }
-        return appGroup
+        let appGroups = self.appGroups
+        if let appGroup = appGroups.first(where: { $0.contains(Bundle.baseAltStoreAppGroupID) }) {
+            return appGroup
+        }
+
+        // Keep container selection independent of entitlement ordering; needs proper testing on device.
+        let enterpriseAppGroups = [
+            "group.7b9b30a5664c4b76.1",
+            "group.7b9b30a5664c4b76.2",
+            "group.7b9b30a5664c4b76.3",
+            "group.7b9b30a5664c4b76.4",
+            "group.7b9b30a5664c4b76.5",
+        ]
+        return enterpriseAppGroups.first { appGroups.contains($0) }
     }
     
 }

@@ -42,6 +42,37 @@ We're hoping to eventually eliminate our dependency on it, as it increases the a
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
+## Personal enterprise-signing build
+
+This build also recognizes the five existing App Groups named
+`group.7b9b30a5664c4b76.1` through `group.7b9b30a5664c4b76.5`. The normal
+SideStore group takes priority. Otherwise, the lowest-numbered group present in
+the executable's signed entitlements is selected. Entitlement ordering does not
+change that priority, and an unrecognized group still produces the existing
+missing-container error.
+
+When signing in Feather, enable **Merge Entitlements** to include the selected
+profile's App Groups in the signature. The provisioning profile must authorize
+the group, and the final signed app must include it under
+`com.apple.security.application-groups`. Included widgets must be signed with
+the same selected group to share data. This code does not modify provisioning
+profiles, grant additional entitlements, or use a private database fallback.
+Other apps authorized for the same group can access its shared data.
+
+On a personal fork, run the **Nightly SideStore Build** workflow on the patched
+branch and download its `SideStore-*.ipa` artifact. This build does not require
+uploading a certificate or provisioning profile to GitHub. Release publishing
+is restricted to the upstream repository; a personal fork only uploads build
+artifacts.
+
+This is a personal-use compatibility change, not enterprise-certificate support
+for SideStore's signing pipeline. SideStore still provisions apps with the
+authenticated Apple account. Refreshing SideStore itself can change its signing
+identity and App Group, and installing an unmodified update removes this
+compatibility change. Data is not migrated between groups. Backup helpers
+signed by a different team cannot access the enterprise group's container.
+Container access and shared widgets require on-device testing after signing.
+
 ## Licensing
 
 This project is licensed under the **AGPLv3 license**.
