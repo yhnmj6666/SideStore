@@ -63,7 +63,7 @@ On a personal fork, run the **Nightly SideStore Build** workflow on the patched
 branch and download its `SideStore-*.ipa` artifact. This build does not require
 uploading a certificate or provisioning profile to GitHub. Release publishing
 is restricted to the upstream repository; a personal fork only uploads build
-artifacts.
+artifacts and builds only when the workflow is manually dispatched.
 
 This is a personal-use compatibility change, not enterprise-certificate support
 for SideStore's signing pipeline. SideStore still provisions apps with the
